@@ -18,7 +18,7 @@ h3 {
     position: absolute;
 }
 
-.bossTitleCard, enemyTitleCard {
+#bossTitleCard, #enemyTitleCard {
     padding-top: 68px;
     text-align: center;
     display: inline-block;
@@ -31,7 +31,7 @@ h3 {
     background-size: contain;
 }
 
-.enemyTitleCard {
+#enemyTitleCard {
     padding-top: 68px;
     text-align: center;
     display: inline-block;
