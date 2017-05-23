@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <link href="https://fonts.googleapis.com/css?family=Lato:100,300,600" rel="stylesheet" type="text/css">
+        <link href="http://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css" rel="stylesheet" type="text/css">
+        <link type="text/css" rel="stylesheet" href="main.css">
+        
+        <title>Beat Up Beat Down</title>
+    </head>
+
+    <body>
+        <div class="gameScene">
+            <div class="enemyTitleCard">
+                <h2 id="enemyBattleCard">Bill vs. Flying Sheep</h2>
+            </div>
+            <div class="hero"></div>
+            <div class="bossDoor"></div>
+            <div class="door"></div>
+            <div id="enemyDead">
+            </div>
+            <div class="backgroundBottom"></div>
+        </div>
+        <div class="gameStatus">
+        <div class="healthContainer">
+            <h4>Health</h4>
+            <div id="healthBarFill"></div>
+            <div id="healthBarBG"></div>
+            <div id="healthBarBorder"></div>
+        </div>
+            <div id="statusLog">
+                <h4 id="statusLogUpdate">Bill used sarcasm. It wasn't very effective.</h4>
+                <h4 id="effectLogUpdate">Bill used sarcasm. It wasn't very effective.</h4>
+            </div>
+        <div class="enemyHealthContainer">
+            <h4>Health</h4>
+            <div id="enemyHealthBarFill"></div>
+            <div id="enemyHealthBarBG"></div>
+            <div id="enemyHealthBarBorder"></div>
+        </div>
+        </div>  
+            
+        <div class="GUI">
+            <div class="attackGUI">
+                <div class="weaponDisplay">
+                <h3>Equipped Weapon</h3>
+                <img id="weaponSword" src="weaponSword.png">
+                    </div>
+                <div class="manaDisplay">
+                    <h3>Spells</h3>
+                    <div class="spellContainer">
+                        <img id="magicFireAttack" src="magicFireAttack.png">
+                        <h4>Fire Rain</h4>
+                    </div>
+                    <div class="spellContainer">
+                        <img id="magicHealBurst" src="magicHealBurst.png">
+                        <h4>Heal Burst</h4>
+                    </div>
+                    <div class="spellContainer">
+                        <img id="magicArmor" src="magicArmor.png">
+                        <h4>Ecto Armor</h4>
+                    </div>
+                    <div class="spellContainer">
+                        <img id="magicMeteorStrike" src="magicMeteorStrike.png">
+                        <h4>Nutron Slag</h4>
+                    </div>
+                    <div class="manaContainer">
+                        <h4>Mana</h4>
+                        <div id="manaBarFill"></div>
+                        <div id="manaBarBG"></div>
+                        <div id="manaBarBorder"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="inventoryGUI">
+                <div class="inventoryContainer">
+                    <h3>Inventory</h3>
+                    <div class="potionModRed">
+                    <div class="potionContainer">
+                        <img id="potionRed" src="potionRed.png">
+                </div>
+                    <div class="itemCount">
+                    <h4>Health Potion x 1</h4>
+                        </div>
+                        </div>
+                  <div class="potionModRed">
+                    <div class="potionContainer">
+                        <img id="potionBlue" src="potionBlue.png">
+                </div>
+                    <div class="itemCount">
+                    <h4>Mana Potion x 1</h4>
+                        </div>
+                        </div>
+                    
+                <div class="weaponOptionsContainer">
+                    <div class="itemContainer">
+                        <img id="itemSword" src="weaponSword.png">
+                        <h4>Sword</h4>
+                    </div>
+                    <div class="itemContainer">
+                        <img id="itemAxe" src="weaponAxe.png">
+                        <h4>Axe</h4>
+                    </div>
+                    <div class="itemContainer">
+                        <img id="itemHammer" src="weaponHammer.png">
+                        <h4>Hammer</h4>
+                    </div>
+                    </div>
+          </div>          
+        </div>
+       </div>
+        <script src="app.js"></script>
+    </body>
+</html>
