@@ -1,189 +1,240 @@
-// enemies array
-var enemies = ['Boss', 'Zombie', 'Plant', 'Gremlin', 'FlyingSheep', 'FlyingMonkey', 'BullBlob', 'Blob'];
 
-var enemyAttacks = ['Antioxidants', 'Brain-Dead', 'Chloro-fiend', 'Shaving Cream Prank', 'Static Lightning', 'Scratching Armpit', 'Slow Slime-Charge', 'Pectin Slap']
+/////////////////////////
+//                     //
+//  *** Variables ***  //
+//                     //
+/////////////////////////
 
-var fireEffectivenessFactor =    [0, 2, 2, 0, 0, 2, 1, 0]
-var swordEffectivenessFactor =   [2, 0, 0, 0, 2, 0, 1, 0]
-var axeEffectivenessFactor =     [1, 1, 2, 1, 0, 0, 0, 0]
-var hammerEffectivenessFactor =  [1, 2, 0, 2, 1, 0, 0, 0]
-var neutronEffectivenessFactor = [3, 3, 5, 4, 5, 5, 4, 3]
 
-var fireEffectivenessText = ["It wasn't very effective.", "It was SUPER effective. Yikes.", "It was SO effective. SAD.", '"Is it a little warm in here?"', "Baaaad choice. Didn't do much.", "It was super effective...for some reason.", "I mean, it didn't NOT hurt it.", "Well that didn't work."]
+//******//  Storage Variables  //******// 
 
-var swordEffectivenessText = ["It slices! It Dices!", "Didn't work and un-dead guy is still coming.", "It wasn't very effective.", "Probably not the best weapon.", "It worked real good. And, also, wool!", "It worked like crap. Speaking of--DUCK!", "Went through it like butter...but it didn't do anything.", "Uh, not the best weapon."]
+//--// Damage Calculation
+var dmgLvl = [0, 1, 2, 3, 4];
+var damageLevel = 10;
 
-var axeEffectivenessText = ["That didn't do much."]
-
-var weapons = ['Sword', 'Axe', 'Hammer']
+//--// Weapons/Attacks
 var currentWeapon = 0;
+var currentAttackType = 0;
 
 // Stored Data Variables
 var currentEnemy = 7;
 var nextEnemy = 6;
 var enemy = new Object();
-    enemy.currentEnemy = 0; 
+    enemy.currentEnemy = 1; 
     enemy.currentHealth = 100;
 
-var damageLevel = 10;
 var hero = {currentHealth: 100};
 var calculatedDamage = 0;
-
-// New Object Constructor
-/* var gameCharacter = new Object();
-    gameCharacter.eventInitiator = ['Bill ', 'The ' + enemies[currentEnemy]];
-    gameCharacter.eventAction = ['attacked ', 'was hit by ', 'was afflicted with '];
-    gameCharacter.eventTarget = ['Bill ', 'The ' + enemies[currentEnemy]];
-    gameCharacter.eventMethod = ['with a sword! ', 'with '];
-    gameCharacter.eventResult = ['It wasn't very effective.', 'It sort of worked, I guess.', It was super effective.'];
-    */
 
 // State Variables
 var heroTurn = true;
 
 // var hitDamage = calculateDamage;
 
-// Equipped Weapons
-var weaponSword = document.getElementById('weaponSword');
-var weaponAxe = document.getElementById('weaponAxe');
-var weaponHammer = document.getElementById('weaponHammer');
+
 var hitDamage;
 
 // Bar fills 
 var enemyHealthBarFill = document.getElementById('enemyHealthBarFill');
 
 
-// functions
+
+//******//  Section: Game Characters  //******// 
+
+
+// Character Object Constructor
+
+function Character(name, htmlId, attack, effectivenessSword, effectivenessAxe, effectivenessHammer, effectivenessFire, effectivenessNeutrino, callId, effectivenessText0, effectivenessText1, effectivenessText2, effectivenessText3, titleCardText) {
+    this.name=name;
+    this.htmlId = htmlId;
+    this.attack = attack; 
+    this.effectivenessSword = effectivenessSword;
+    this.effectivenessAxe = effectivenessAxe;
+    this.effectivenessHammer = effectivenessHammer;
+    this.effectivenessFire = effectivenessFire;
+    this.effectivenessNeutrino = effectivenessNeutrino;
+    this.callId = callId;
+    this.effectivenessText0 = effectivenessText0;
+    this.effectivenessText1 = effectivenessText1;
+    this.effectivenessText2 = effectivenessText2;
+    this.effectivenessText3 = effectivenessText3;
+    this.titleCardText = titleCardText;
+}
+
+
+//--// Character Objects (Enemies)
+
+var blob = new Character('Micro-Blob', 'enemyBlob', 'Pectin Slap', dmgLvl[0], dmgLvl[0], dmgLvl[0], dmgLvl[0], dmgLvl[3], document.getElementById('enemyBlob'), 'Please puny non-vegetable. You are but a shallot to me.', "It was moderately effective.", 'Slice and dice baby! Slice and dice!', 'Holy cats! That worked amazing!', "Bill vs a Micro-Blob");
+
+
+var bullBlob = new Character('Bull Blob', 'enemyBullBlob', 'Goo Cannon', dmgLvl[1], dmgLvl[0], dmgLvl[0], dmgLvl[1], dmgLvl[4], document.getElementById('enemyBullBlob'), 'Please puny non-vegetable. You are but a shallot to me.', "It was moderately effective.", 'Slice and dice baby! Slice and dice!', 'Holy cats! That worked amazing!', "Bill vs a Bull Blob");
+
+
+var flyingMonkey = new Character('Flying Monkey', 'enemyFlyingMonkey', 'Bananarang', dmgLvl[0], dmgLvl[0], dmgLvl[0], dmgLvl[2], dmgLvl[5], document.getElementById('enemyFlyingMonkey'), 'Please puny non-vegetable. You are but a shallot to me.', "It was moderately effective.", 'Slice and dice baby! Slice and dice!', 'Holy cats! That worked amazing!', "Bill vs a Flying Monkey");
+
+
+var flyingSheep = new Character('Flying Sheep', 'enemyFlyingSheep', 'Static Cloud', dmgLvl[2], dmgLvl[0], dmgLvl[1], dmgLvl[0], dmgLvl[5], document.getElementById('enemyFlyingSheep'), 'Please puny non-vegetable. You are but a shallot to me.', "It was moderately effective.", 'Slice and dice baby! Slice and dice!', 'Holy cats! That worked amazing!', "Bill vs a Flying Sheep");
+
+
+var gremlin = new Character('Gremlin', 'enemyGremlin', 'Shaving Cream Prank', dmgLvl[0], dmgLvl[1], dmgLvl[2], dmgLvl[0], dmgLvl[4], document.getElementById('enemyGremlin'), 'Please puny non-vegetable. You are but a shallot to me.', "It was moderately effective.", 'Slice and dice baby! Slice and dice!', 'Holy cats! That worked amazing!', "Bill vs a Gremlin");
+
+
+var plant = new Character('Carnivorous Tulip', 'enemyPlant', 'Chloro-Form', dmgLvl[0], dmgLvl[2], dmgLvl[0], dmgLvl[2], dmgLvl[5], document.getElementById('enemyPlant'), 'Please puny non-vegetable. You are but a shallot to me.', "It was moderately effective.", 'Slice and dice baby! Slice and dice!', 'Holy cats! That worked amazing!', "Bill vs a Carnivorous Tulip");
+
+
+var zombie = new Character('Rock Zombie', 'enemyZombie', 'Braaaaaiiinnnssss...', dmgLvl[0], dmgLvl[1], dmgLvl[2], dmgLvl[2], dmgLvl[3], document.getElementById('enemyZombie'), 'Please puny non-vegetable. You are but a shallot to me.', "It was moderately effective.", 'Slice and dice baby! Slice and dice!', 'Holy cats! That worked amazing!', "Bill vs a Rock Zombie");
+
+
+var boss = new Character("Mondo 'Mato King", 'enemyBoss', 'Antioxidance', dmgLvl[2], dmgLvl[1], dmgLvl[1], dmgLvl[0], dmgLvl[2], document.getElementById('enemyBoss'), 'Please puny non-vegetable. You are but a shallot to me.', "It was moderately effective.", 'Slice and dice baby! Slice and dice!', 'Holy cats! That worked amazing!', "Bill vs the Mondo 'Mato King");
+
+
+//--// Array of Character Objects (Enemies)
+var enemies = [boss, zombie, plant, gremlin, flyingSheep, flyingMonkey, bullBlob, blob];
+
+
+
+
+//******//  Section: Game Weapons and Attack Variables  //******// 
+
+//--// weaponType Object Constructor
+function WeaponType(name, htmlId) {
+    this.name = name;
+    this.htmlId = htmlId;
+}
+
+//--// weaponType variables
+var sword = new WeaponType('Sword', 'weaponSword');
+var axe = new WeaponType('Axe', 'weaponAxe');
+var hammer = new WeaponType('Hammer', 'weaponHammer');
+
+//--// weaponType Object Array
+var weaponType = [sword, axe, hammer];
+
+//--// weaponType getElementById Shorthand
+var weaponSword = document.getElementById('weaponSword');
+var weaponAxe = document.getElementById('weaponAxe');
+var weaponHammer = document.getElementById('weaponHammer');
+
+//--// Attack Type Array -- informs currentAttackType variable
+
+var attackType = ['Sword', 'Axe', 'Hammer', 'Fire', 'Meteor Strike'];
+
+
+//******//  Section: Button Variables  //******// 
+
+//--// buttonItem Object Constructor
+function ButtonItem(name, htmlId, buttonClickFunction) {
+    this.name = name;
+    this.htmlId = htmlId;
+    this.buttonClickFunction = buttonClickFunction;
+}
+
+
+//--// buttonItem Objects
+var fireAttack = new ButtonItem('Fire Attack', 'FireAttack', buttonFireAttack);
+var healBurst = new ButtonItem('Heal Burst', 'HealBurst', buttonHealBurst);
+var ectoArmor = new ButtonItem('Ecto Armor', 'EctoArmor', buttonEctoArmor);
+var meteorStrike = new ButtonItem('Meteor Strike', 'MeteorStrike', buttonMeteorStrike);
+
+
+//--// button Functions
+function buttonFireAttack(){};
+function buttonHealBurst(){};
+function buttonEctoArmor(){};
+function buttonMeteorStrike(){};
+
+var buttonItems = [fireAttack, healBurst, ectoArmor, meteorStrike]
+
+
+
+
+
+/////////////////////////
+//                     //
+//  --- Functions ---  //
+//                     //
+/////////////////////////
+
+
 function doesItWork (){
     console.log("success!");
 }
 
+function adjustHealth() {
+        calculateHitDamage();
+        lowerOpponentHealth();
+        if (heroTurn === true) {
+            updateStatusLog('Bill used ' + attackType[currentAttackType] + ' on ' + enemies[currentEnemy].name + '.');
+        } else {
+            updateStatusLog(enemies[currentEnemy].name + 'used ' + enemies[currentEnemy].attack + '.');
+        }
+
+        if (enemy.currentHealth <= 5) {
+        loadNextEnemy();
+        }
+    }   
+
+    function lowerOpponentHealth () {
+    if (heroTurn === true) {
+        document.getElementById('enemyHealthBarFill').style.width = (enemy.currentHealth - hitDamage) + '%';
+        enemy.currentHealth -= hitDamage;
+    } else if (heroTurn === false) {
+    document.getElementById('healthBarFill').style.width = (hero.currentHealth - hitDamage) + '%';
+    hero.currentHealth -= hitDamage;
+    }
+}
+
 function calculateHitDamage() {
-    hitDamage = Math.floor(Math.random() * (damageLevel * (currentEnemy + 1)));
+    if (heroTurn === true){
+        hitDamage = Math.floor(Math.random() * (damageLevel * (currentEnemy + 1)));
+    } else {
+         hitDamage = Math.floor(Math.random() * (damageLevel * (currentEnemy + 1)));
+    }
+    
 }
 
-function lowerEnemyHealth () {
-    document.getElementById('enemyHealthBarFill').style.width = (enemy.currentHealth - hitDamage) + "%";
-    enemy.currentHealth -= hitDamage;
-}
-
+  
 function loadNextEnemy() {
     nextEnemy = Math.floor(Math.random() * 7);
-    // console.log(currentEnemy);
-    // console.log(nextEnemy);
-    document.getElementById("enemy" + enemies[currentEnemy]).setAttribute("id", ("enemy" + enemies[nextEnemy]));
+console.log(currentEnemy);
+console.log(nextEnemy);
+   document.getElementById(enemies[currentEnemy].htmlId).id = enemies[nextEnemy].htmlId;
     currentEnemy = nextEnemy;
-    //console.log(currentEnemy);
+console.log(currentEnemy);
     enemy.currentHealth = 100;
-   // console.log(enemy.currentHealth);
+console.log(enemy.currentHealth);
     document.getElementById('enemyHealthBarFill').style.width = (enemy.currentHealth) + "%";
+    document.getElementById('battleDescription').textContent = 'Bill vs ' + enemies[currentEnemy].name + "'";
+    updateTitleCard();
 }
 
+function updateTitleCard() {
+    if (currentEnemy = 0) {
+        document.getElementById('enemyTitleCard').setAttribute("id", '.bossTitleCard');
+        document.getElementById('bossTitleCard').innerHTML = 'Bill vs ' + enemies[currentEnemy].name + "'";
+        
+    }
+}
 // Update Status Log for Attacks
-function updateStatusLog(eventText1, eventText2) {
+function updateStatusLog(eventText) {
     console.log( "updateStatusLog activated");
-    document.getElementById('statusLogUpdate').textContent = eventText1 + enemies[currentEnemy] + eventText2 + weapons[currentWeapon];
-}
-
-
-
-function adjustHealth() {
-    if (heroTurn == true)
-    {
-    calculateHitDamage();
-    lowerEnemyHealth();
-    updateStatusLog('Bill attacked ', ' with a ');
-
-   if (enemy.currentHealth <= 5) {
-       loadNextEnemy();
-   }
-    heroTurn == false;
-}
-}
-   
-/* function adjustHealth () {
-    if (heroTurn == true)
-    {
-    hitDamage = Math.floor(Math.random() * (damageLevel * (currentEnemy + 1)));
-    document.getElementById('enemyHealthBarFill').style.width = (enemy.currentHealth - hitDamage) + "%";
-    enemy.currentHealth -= hitDamage;
-   if (enemy.currentHealth <= 0) {
-       loadNextEnemy();
-   }
-    heroTurn == false;
-}
-    if (heroTurn == false) {
+    document.getElementById('statusLogUpdate').textContent = eventText;
     
-} */
-/*function calculateDamage() {
-   var damageFactor = calculateDamageFactor();
-      return;
-} */
+    
+
+}
+
+
+
+/*
 function calculateDamage(currentenemy) {
     damageFactor = currentenemy;
      Math.random() * (6 * damageFactor +1);
 }
+*/
+/*
 function hitHealth () {
-    document.getElementById('enemyFlyingSheep').style.width = "'" + enemy.currentEnemyHealth - calculatedDamage + "%'";
-} 
-
-weaponSword.addEventListener("click", adjustHealth);
-    
-/*
-weaponSword.addEventListener('click', function() {
-    hitDamage = Math.floor(Math.random() * (damageLevel * (currentEnemy + 1)));
-    document.getElementById('enemyHealthBarFill').style.width = (enemy.currentHealth - hitDamage) + "%";
-    enemy.currentHealth -= hitDamage;
-   if (enemy.currentHealth <= 0) {
-       loadNextEnemy();
-   }
-    doesItWork();
- }); 
-*/
-/* weaponSword.addEventListener('click', function() {
-    tempDamage = calculateDamage();
-    document.getElementById('enemyFlyingSheep').style.width = "'" + enemy.currentEnemyHealth - tempDamage + "%'";
-                                                 doesItWork();
-                                                 });
-                                                 */
-
-/*
-function test(){
-if (1 == 1) {switch(enemy.currentEnemy) {
-        case 0:
-            16;
-            break;
-        case 1:
-            damageFactor === 32;
-            break;  
-        case 2:
-            damageFactor === 32;
-            break;
-        case 3:
-            damageFactor === 32;
-            break;
-        case 4:
-            damageFactor === 32;
-            break;
-        case 5:
-            damageFactor === 32;
-            break;
-        case 6:
-            damageFactor === 32;
-            break;
-        case 7:
-            damageFactor === 40;
-            break;
-    default:
-    alert("calculateDamageFactor didn't work! ln. 44 to 74");
-    
-}
-            }
-*/
-
-
-
-/* calculateDamage();
-console.log(calculateDamage); */
-//click weapon to 
-
+    document.getElementById(enemies[currentEnemy].htmlId).style.width = "'" + enemy.currentEnemyHealth - calculatedDamage + "%'";
+}  
+   */ 
+weaponSword.addEventListener('click', adjustHealth);
